@@ -10,19 +10,9 @@ CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 BP_DIR=$(cd $(dirname ${0:-}); cd ..; pwd)
 
-ls -lah $ENV_DIR
-
 source $BP_DIR/lib/environment.sh
 export_env_dir "$ENV_DIR"
 
-if [ -z "$NPM_AUTH_TOKEN" ]
-then
-    echo "\$NPM_AUTH_TOKEN is not set!"
-else
-    echo "\$NPM_AUTH_TOKEN is OK!"
-fi
-
-echo "Creating file: $BUILD_DIR/.npmrc"
+echo "Appending NPM_AUTH_TOKEN to $BUILD_DIR/.npmrc"
 echo "" >> $BUILD_DIR/.npmrc
-echo "//registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN" >> $BUILD_DIR/.npmrc
-ls -lah $BUILD_DIR/.npmrc
+echo "//npm.pkg.github.com/:_authToken=$NPM_AUTH_TOKEN" >> $BUILD_DIR/.npmrc
